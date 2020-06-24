@@ -4,11 +4,11 @@
 /* Create variables for principal, interest rate, and years. Assign them the values 200000, 0.05, and 30 respectively. Create another value called name and give it the value of your own name.
  */
 
-const principal = 200000;
-const interestRate = 0.05;
-const years = 30;
+let principal = 200000;
+let interestRate = 0.05;
+let years = 30;
 
-const name = "Jose Alvarado";
+let name = "Jose Alvarado";
 
 // 🏡 Task 1.5: Simple Math
 /* To create a monthly mortgage rate calculator, we need to know the number of years in months and the monthly interest rate. 
@@ -17,8 +17,8 @@ const name = "Jose Alvarado";
 (2) Create another variable called `periods` and give it the value of years*12.
 */
 
-const monthlyInterestRate = interestRate / 12;
-const periods = years * 12;
+let monthlyInterestRate = interestRate / 12;
+let periods = years * 12;
 
 // 🏡 Task 2: Harder Math
 /* Create your calculator! Use the formula in the ReadMe (also below) to run calculations on your numbers. Save the final value into a variable called monthlyRate. 
@@ -37,10 +37,10 @@ Hint #2: you'll need to use the `math` object for parts of this calculation!
 When your math is correct, monthlyRate will equal 1073.64
 */
 
-const n1 = (1 + monthlyInterestRate) ** periods;
-const numerator = monthlyInterestRate * n1;
-const denominator = n1 - 1;
-const monthlyRate = principal * (numerator / denominator);
+let n1 = (1 + monthlyInterestRate) ** periods;
+let numerator = monthlyInterestRate * n1;
+let denominator = n1 - 1;
+let monthlyRate = principal * (numerator / denominator);
 
 // 🏡 Task 3: Function
 /* Create a function called `mortgageCalculator` that combines all of the steps from task 1 and 2 and returns a sentence "{Name}, your monthly rate is ${monthlyRate}"
@@ -119,28 +119,33 @@ const variableInterestRate = (P, I, N) => {
   const principal = P;
   const periods = N * 12;
 
-  const increment = 0.005;
-  const numberOfLoops = 10;
-  const subtractFrom = (numberOfLoops / 2) * increment;
-  let initalVal = I - subtractFrom;
+  const increment = 0.005 * 1000;
+  const multipliedRate = I * 1000;
 
-  for (let i = 0; i < numberOfLoops; i++) {
-    const monthlyInterestRate = initalVal / 12;
+  const range = 4;
+  const difference = increment * range;
+  const startingPoint = multipliedRate - difference;
+  const endPoint = multipliedRate + difference;
 
-    const n1 = (1 + monthlyInterestRate) ** periods;
-    const numerator = monthlyInterestRate * n1;
+  for (let i = startingPoint; i !== endPoint + increment; i += increment) {
+    const reducedRate = i / 1000;
+
+    const changingRate = reducedRate / 12;
+    const n1 = (1 + changingRate) ** periods;
+    const numerator = changingRate * n1;
     const denominator = n1 - 1;
+
     const monthlyRate = principal * (numerator / denominator);
+
     console.log(
-      `${name}, with an interest rate of ${initalVal.toFixed(
-        3
-      )}, your monthly rate is $${monthlyRate.toFixed(2)}`
+      `${name}, with an interest rate of ${reducedRate}, your monthly rate is $${Math.round(
+        monthlyRate
+      )}`
     );
-    initalVal += increment;
   }
 };
 
-variableInterestRate(200000, 0.05, 30);
+variableInterestRate(200000, 0.04, 30);
 
 // 🌟🌟🌟 STRETCH 🌟🌟🌟//
 
